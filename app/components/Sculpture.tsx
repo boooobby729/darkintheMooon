@@ -12,7 +12,7 @@ interface ColumnModelProps {
 function ColumnModel({ scrollProgress, isScrolling }: ColumnModelProps) {
   const group = useRef<any>(null);
   // 加载放在 public/models 下的罗马柱模型
-  const { scene } = useGLTF('/models/罗马柱.glb');
+  const { scene } = useGLTF('/models/column.glb');
 
   useFrame((_state, delta) => {
     // 根据滚动状态调整旋转速度
@@ -45,7 +45,7 @@ function ColumnModel({ scrollProgress, isScrolling }: ColumnModelProps) {
 }
 
 // 预加载模型
-useGLTF.preload('/models/罗马柱.glb');
+useGLTF.preload('/models/column.glb');
 
 interface SculptureProps {
   containerRef?: React.RefObject<HTMLDivElement | null>;

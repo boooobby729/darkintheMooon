@@ -152,7 +152,7 @@ export default function Home() {
             }}
           >
             <Image
-              src="/image/首页天使.png"
+              src="/image/angel.png"
               alt="天使"
               width={800}
               height={800}
