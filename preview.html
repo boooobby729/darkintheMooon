@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预览说明</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: system-ui, sans-serif;
+            background: #1a1a1a;
+            color: #eee;
+            min-height: 100vh;
+        }
+        .tip {
+            max-width: 480px;
+            padding: 24px;
+            background: #2a2a2a;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .tip h2 { font-size: 18px; margin-bottom: 12px; }
+        .tip p { font-size: 14px; line-height: 1.6; color: #ccc; margin-bottom: 16px; }
+        .tip a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4a9eff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .tip a:hover { background: #3a8eef; }
+    </style>
+</head>
+<body>
+    <div class="tip">
+        <h2>应用预览（刮刮乐在 Next 应用内）</h2>
+        <p>请先在本机运行：<code>npm run dev</code>，然后点击下方链接查看带银色金属刮层和 hover 效果的刮刮乐。</p>
+        <a href="http://localhost:3000/other" target="_blank" rel="noopener">打开 OTHER 页面 (localhost:3000)</a>
+    </div>
+    <div class="tip">
+        <p>若 3000 端口被占用，开发服务器可能使用 3002，请尝试：<a href="http://localhost:3002/other" target="_blank" rel="noopener" style="background:transparent;padding:0;color:#4a9eff;">localhost:3002/other</a></p>
+    </div>
+</body>
+</html>
