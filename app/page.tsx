@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import NavBar from './components/NavBar';
 import Sculpture from './components/Sculpture';
+import SmokeText from './components/SmokeText';
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,25 +47,50 @@ export default function Home() {
       </div>
       
       {/* Background Text - 第二个显示 */}
-      <div 
-        className={`silver-glow-text ${isReady ? 'fade-in-text' : ''}`}
+      <div
         style={{
           position: 'absolute',
           right: '100px',
           top: '300px',
           zIndex: 2,
-          fontSize: '80px',
-          fontWeight: 'bold',
           fontFamily: '"Intel One Mono", "Intel", monospace, sans-serif',
           textTransform: 'uppercase',
           textAlign: 'right',
           pointerEvents: 'none',
           lineHeight: '1.2',
           wordSpacing: '-10px',
-          opacity: 0,
         }}
       >
-        THE DARK SEA<br />UNDER THE MOONLIGHT
+        <SmokeText
+          config={{
+            fontSize: 'clamp(36px, 6vw, 80px)',
+            fontWeight: 'bold',
+            color: 'rgba(255,255,255,0.85)',
+            duration: 6,
+            delay: 0.8,
+            blurAmount: 12,
+            minOpacity: 0.15,
+            translateY: 20,
+            style: { display: 'block' },
+          }}
+        >
+          THE DARK SEA
+        </SmokeText>
+        <SmokeText
+          config={{
+            fontSize: 'clamp(36px, 6vw, 80px)',
+            fontWeight: 'bold',
+            color: 'rgba(255,255,255,0.85)',
+            duration: 6,
+            delay: 1.2,
+            blurAmount: 12,
+            minOpacity: 0.15,
+            translateY: 20,
+            style: { display: 'block' },
+          }}
+        >
+          UNDER THE MOONLIGHT
+        </SmokeText>
       </div>
 
       {/* Poem Text - Left Side */}

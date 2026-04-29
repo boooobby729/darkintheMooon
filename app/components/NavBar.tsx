@@ -10,9 +10,6 @@ export default function NavBar() {
     { path: '/', label: 'BINGO' },
     { path: '/reading', label: 'READING' },
     { path: '/recode', label: 'RECODE' },
-    { path: '/knowledge', label: 'KNOWLEDGE' },
-    { path: '/other', label: 'OTHER' },
-    { path: '/fire', label: 'FIRE' }
   ];
 
   const handleNavigation = (path: string) => {
