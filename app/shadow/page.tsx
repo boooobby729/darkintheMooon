@@ -10,7 +10,6 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
    配置区域 - 可自由调整参数
    ============================================================ */
 
-// 视差图层配置
 const PARALLAX_CONFIG = {
   // 容器圆角
   borderRadius: '20px',
@@ -19,10 +18,10 @@ const PARALLAX_CONFIG = {
   // 位移强度
   translateX: 120,
   translateY: 80,
-  // hover 时缩放比例（小于1 = 缩小以露出视差位移空间）
-  hoverScale: 0.88,
-  // 缩放过渡时间
-  scaleTransition: '0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+  // hover 时图层放大比例（>1 = 放大，为视差位移留出空间）
+  layerZoomScale: 1.12,
+  // 缩放缓动系数
+  scaleLerp: 0.04,
 };
 
 // 8 layers from bottom (farthest) to top (nearest)
@@ -43,6 +42,8 @@ export default function ShadowPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseTarget = useRef({ x: 0, y: 0 });
   const animCurrent = useRef({ x: 0, y: 0 });
+  const scaleTarget = useRef(1);
+  const scaleCurrent = useRef(1);
   const rafRef = useRef<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -52,16 +53,19 @@ export default function ShadowPage() {
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      // Normalize to -1 ~ 1
       const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
       mouseTarget.current = { x, y };
     };
 
-    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      scaleTarget.current = PARALLAX_CONFIG.layerZoomScale;
+    };
     const handleMouseLeave = () => {
       setIsHovered(false);
       mouseTarget.current = { x: 0, y: 0 };
+      scaleTarget.current = 1;
     };
 
     container.addEventListener('mousemove', handleMouseMove);
@@ -75,21 +79,25 @@ export default function ShadowPage() {
     };
   }, []);
 
-  // Animation loop - parallax only
+  // Animation loop - parallax + scale 全部在 RAF 中统一处理
   useEffect(() => {
     const animate = () => {
-      // Smooth lerp for parallax layers
+      // Lerp parallax position
       animCurrent.current.x += (mouseTarget.current.x - animCurrent.current.x) * PARALLAX_CONFIG.lerp;
       animCurrent.current.y += (mouseTarget.current.y - animCurrent.current.y) * PARALLAX_CONFIG.lerp;
 
-      // Apply parallax to layers
+      // Lerp scale
+      scaleCurrent.current += (scaleTarget.current - scaleCurrent.current) * PARALLAX_CONFIG.scaleLerp;
+
+      // Apply to layers
       const layerElements = containerRef.current?.querySelectorAll('.parallax-layer');
       if (layerElements) {
         layerElements.forEach((el, index) => {
           const depth = layers[index].depth;
           const moveX = animCurrent.current.x * depth * PARALLAX_CONFIG.translateX;
           const moveY = animCurrent.current.y * depth * PARALLAX_CONFIG.translateY;
-          (el as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px)`;
+          const s = scaleCurrent.current;
+          (el as HTMLElement).style.transform = `translate(${moveX}px, ${moveY}px) scale(${s})`;
         });
       }
 
@@ -128,7 +136,7 @@ export default function ShadowPage() {
       }}>
         <NavBar />
 
-        {/* Parallax Scene Container */}
+        {/* Parallax Scene Container - 容器大小固定不变 */}
         <div
           ref={containerRef}
           style={{
@@ -138,9 +146,6 @@ export default function ShadowPage() {
             borderRadius: PARALLAX_CONFIG.borderRadius,
             overflow: 'hidden',
             cursor: 'crosshair',
-            // 默认完整显示，hover 后缩放露出视差空间
-            transform: isHovered ? `scale(${PARALLAX_CONFIG.hoverScale})` : 'scale(1)',
-            transition: `transform ${PARALLAX_CONFIG.scaleTransition}`,
           }}
         >
           {/* Parallax Layers */}
@@ -150,8 +155,7 @@ export default function ShadowPage() {
               className="parallax-layer"
               style={{
                 position: 'absolute',
-                // 图层比容器大，视差位移时不会露出空白
-                inset: '-50px',
+                inset: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
