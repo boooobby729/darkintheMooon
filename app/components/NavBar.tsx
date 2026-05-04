@@ -10,6 +10,7 @@ export default function NavBar() {
     { path: '/', label: 'BINGO' },
     { path: '/reading', label: 'READING' },
     { path: '/recode', label: 'RECODE' },
+    { path: '/shadow', label: 'SHADOW' },
   ];
 
   const handleNavigation = (path: string) => {

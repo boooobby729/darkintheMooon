@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import NavBar from '../../components/NavBar';
+import PageBackground from '../../components/PageBackground';
 
 interface Card {
   id: string;
@@ -153,20 +154,7 @@ export default function CardDetailPage() {
       <div onClick={(e) => e.stopPropagation()}>
         <NavBar />
       </div>
-      {/* Animated Gradient Circles Background */}
-      <div className="gradient-background">
-        <div className="gradient-circle circle-1"></div>
-        <div className="gradient-circle circle-2"></div>
-        <div className="gradient-circle circle-3"></div>
-        <div className="gradient-circle circle-4"></div>
-      </div>
-      
-      {/* 30 Rectangles with Blur and White Gradient */}
-      <div className="rectangles-container">
-        {Array.from({ length: 30 }).map((_, index) => (
-          <div key={index} className="blur-rectangle"></div>
-        ))}
-      </div>
+<PageBackground />
       
       {/* Content Container */}
       <div 

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import NavBar from './components/NavBar';
+import PageBackground from './components/PageBackground';
 import Sculpture from './components/Sculpture';
 import SmokeText from './components/SmokeText';
 
@@ -20,7 +21,7 @@ export default function Home() {
       ref={containerRef}
       style={{
         width: '100vw',
-        height: '300vh',
+        minHeight: '100vh',
         background: '#000000',
         display: 'flex',
         flexDirection: 'column',
@@ -31,20 +32,7 @@ export default function Home() {
       }}
     >
       <NavBar />
-      {/* Animated Gradient Circles Background */}
-      <div className="gradient-background">
-        <div className="gradient-circle circle-1"></div>
-        <div className="gradient-circle circle-2"></div>
-        <div className="gradient-circle circle-3"></div>
-        <div className="gradient-circle circle-4"></div>
-      </div>
-
-      {/* 30 Rectangles with Blur and White Gradient */}
-      <div className="rectangles-container">
-        {Array.from({ length: 30 }).map((_, index) => (
-          <div key={index} className="blur-rectangle"></div>
-        ))}
-      </div>
+      <PageBackground />
       
       {/* Background Text - 第二个显示 */}
       <div
@@ -178,7 +166,7 @@ export default function Home() {
             }}
           >
             <Image
-              src="/image/angel.png"
+              src="/image/angel.webp"
               alt="天使"
               width={800}
               height={800}

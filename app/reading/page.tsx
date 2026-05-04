@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import NavBar from '../components/NavBar';
+import PageBackground from '../components/PageBackground';
 
 interface Card {
   id: string;
@@ -57,7 +58,7 @@ export default function ReadingPage() {
       ref={containerRef}
       style={{
         width: '100vw',
-        height: '300vh',
+        minHeight: '100vh',
         background: '#000000',
         display: 'flex',
         flexDirection: 'column',
@@ -68,20 +69,7 @@ export default function ReadingPage() {
       }}
     >
       <NavBar />
-      {/* Animated Gradient Circles Background */}
-      <div className="gradient-background">
-        <div className="gradient-circle circle-1"></div>
-        <div className="gradient-circle circle-2"></div>
-        <div className="gradient-circle circle-3"></div>
-        <div className="gradient-circle circle-4"></div>
-      </div>
-      
-      {/* 30 Rectangles with Blur and White Gradient */}
-      <div className="rectangles-container">
-        {Array.from({ length: 30 }).map((_, index) => (
-          <div key={index} className="blur-rectangle"></div>
-        ))}
-      </div>
+      <PageBackground />
       
       {/* Content Container */}
       <div style={{
@@ -90,7 +78,7 @@ export default function ReadingPage() {
         width: '100%',
         maxWidth: '1400px',
         padding: '20px',
-        minHeight: '300vh'
+        minHeight: '60vh'
       }}>
         {/* Create New Card Button */}
         <div style={{
