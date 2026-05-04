@@ -166,7 +166,7 @@ export default function Home() {
             }}
           >
             <Image
-              src="/image/angel.webp"
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/image/angel.webp`}
               alt="天使"
               width={800}
               height={800}

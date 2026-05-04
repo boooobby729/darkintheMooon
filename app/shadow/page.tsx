@@ -4,6 +4,8 @@ import { useRef, useEffect, useState } from 'react';
 import NavBar from '../components/NavBar';
 import PageBackground from '../components/PageBackground';
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 /* ============================================================
    配置区域 - 可自由调整参数
    ============================================================ */
@@ -40,14 +42,14 @@ const TILT_CONFIG = {
 
 // 8 layers from bottom (farthest) to top (nearest)
 const layers = [
-  { src: '/shadow/layer8.webp', depth: 0.03 },  // 最远 - 橙色背景
-  { src: '/shadow/layer7.webp', depth: 0.06 },  // 暗色山峦
-  { src: '/shadow/layer6.webp', depth: 0.10 },  // 山峦+小蛙
-  { src: '/shadow/layer5.webp', depth: 0.15 },  // 弧形波浪
-  { src: '/shadow/layer4.webp', depth: 0.22 },  // 门神角色
-  { src: '/shadow/layer3.webp', depth: 0.30 },  // 紫色海螺
-  { src: '/shadow/layer2.webp', depth: 0.38 },  // 前景蜗牛
-  { src: '/shadow/layer1.webp', depth: 0.48 },  // 最近 - 前景山峦
+  { src: `${basePath}/shadow/layer8.webp`, depth: 0.03 },  // 最远 - 橙色背景
+  { src: `${basePath}/shadow/layer7.webp`, depth: 0.06 },  // 暗色山峦
+  { src: `${basePath}/shadow/layer6.webp`, depth: 0.10 },  // 山峦+小蛙
+  { src: `${basePath}/shadow/layer5.webp`, depth: 0.15 },  // 弧形波浪
+  { src: `${basePath}/shadow/layer4.webp`, depth: 0.22 },  // 门神角色
+  { src: `${basePath}/shadow/layer3.webp`, depth: 0.30 },  // 紫色海螺
+  { src: `${basePath}/shadow/layer2.webp`, depth: 0.38 },  // 前景蜗牛
+  { src: `${basePath}/shadow/layer1.webp`, depth: 0.48 },  // 最近 - 前景山峦
 ];
 
 /* ============================================================ */
