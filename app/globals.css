@@ -19,6 +19,7 @@ html, body {
   overflow-y: auto;
   width: 100%;
   min-height: 100vh;
+  background: #000000;
 }
 
 .custom-input,
