@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import PageBackground from './components/PageBackground';
 import Sculpture from './components/Sculpture';
 import SmokeText from './components/SmokeText';
+import ChromaScroll from './components/ChromaScroll';
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -33,6 +34,7 @@ export default function Home() {
     >
       <NavBar />
       <PageBackground />
+      <ChromaScroll scrollRef={containerRef} />
       
       {/* Background Text - 第二个显示 */}
       <div
