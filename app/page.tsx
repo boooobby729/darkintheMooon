@@ -34,7 +34,7 @@ export default function Home() {
     >
       <NavBar />
       <PageBackground />
-      <ChromaScroll scrollRef={containerRef} />
+      <ChromaScroll />
       
       {/* Background Text - 第二个显示 */}
       <div
