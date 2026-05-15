@@ -14,9 +14,13 @@ interface ProjectData {
   background: string;
   strategies: {
     title: string;
-    description: string;
+    subtitle: string;
+    sections: {
+      heading: string;
+      content: string;
+    }[];
   }[];
-  highlights: {
+  aigc: {
     title: string;
     content: string;
   }[];
@@ -25,67 +29,113 @@ interface ProjectData {
     value: string;
     description: string;
   }[];
-  reflection: string;
+  reflection: {
+    title: string;
+    content: string;
+  }[];
 }
 
 // 呱呱乐项目数据
 const projects: ProjectData[] = [
   {
-    id: 'guaguale-8090',
-    title: '呱呱乐 8090',
-    subtitle: '外卖神券节 S 级营销活动 - 互动游戏化体验设计',
+    id: 'guaguale',
+    title: '呱呱乐',
+    subtitle: '桌面新玩法——以游戏化瓜分体验激活KK沉默用户',
     role: '产品体验设计师',
     duration: '2024',
-    tags: ['营销活动', '游戏化设计', 'AIGC提效', 'S级项目'],
-    overview: '呱呱乐是美团外卖神券节的核心S级营销互动，以刮刮卡为基础玩法，通过游戏化体验驱动用户参与、提升券的领取率和核销率。项目面对的核心挑战是：用户对常规营销互动审美疲劳、参与动力不足，需要在保证商业目标的前提下，让用户"玩得开心、领得爽快"。',
-    background: '神券节作为外卖最大规模的营销IP活动，面临用户参与度下降的挑战。用户对传统"点击领券"模式产生疲劳，需要通过新的互动形式重新激活参与热情。8090版本以80年代与90年代怀旧文化为主题，融合刮刮卡的经典玩法，打造沉浸式领券体验。',
+    tags: ['游戏化设计', '增长策略', '桌面组件', 'AIGC提效', '品牌IP'],
+    overview: '呱呱乐是KK（美团视频极速版）以桌面组件为核心场域的新活动玩法，以"刮刮乐"瓜分模式为核心交互载体，通过游戏化揭奖体验驱动用户两次访问（报名+领奖），目标KK DAU+1.5%。桌面专属翻倍权益差异化引导组件报名提升渗透率，瓜分模式下总奖池固定、翻倍为池内份额再分配，长期运营成本可控。',
+    background: 'KK当前保有用户2600万，DAU仅400万，超过84%的保有用户对现有签到、打卡等常规激励已脱敏，处于"装了不打开"的沉默状态。需要探索以桌面组件为核心场域的新活动玩法，用差异化的游戏化体验重新激活这批安卓下沉用户。核心挑战不是"给多少钱"，而是"用什么形式让确定性的瓜分结果重新产生惊喜感"。',
     strategies: [
       {
-        title: '策略一：降低参与门槛，让"手痒"驱动行为',
-        description: '用户不需要理解复杂规则，看到刮刮卡就知道要"刮一刮"。将核心交互简化为最直觉的手势操作，通过视觉线索（银色涂层+文字提示）和触觉反馈（震动+音效）降低认知负荷。用户从看到到行动的路径缩短至1步。'
+        title: '策略一：构建游戏化揭奖体验，驱动两次访问',
+        subtitle: '将被动"接收奖励"转化为主动"揭示奖励"',
+        sections: [
+          {
+            heading: '形式选择：为什么是刮刮乐',
+            content: '对比三类主流激励揭奖形式（常规签到/打卡→用户已脱敏；宝箱/红包→行业同质化严重，用户产生"套路感"防御；刮刮乐→手指操作+可见变化的物理隐喻，差异化强，下沉用户偏好的"动手"交互），最终选择刮刮乐作为核心载体。用户不是被告知"你分了3毛钱"，而是亲手刮开涂层发现"我中了3毛钱"——结果相同，但心理价值完全不同。背后有三个行为心理学机制：变动比率强化（每日瓜分金额不同+桌面倍数随活跃度变化=奖励的不可预测性）、IKEA效应（用户参与揭示的结果主观价值更高）、峰终定律（刮开金币的瞬间是Peak，"开心收下"是End）。'
+          },
+          {
+            heading: '跨天节奏：让等待变成期待',
+            content: '"当日报名→次日瓜分"的延迟满足结构天然拆成两次访问，服务DAU目标。构建"种期待→养悬念→爆惊喜"三段式情绪曲线：报名成功弹窗（"明日0点可刮奖"+倍数卡揭示，利用信息缺口+禀赋效应）→桌面组件+日历持续提醒（维持期待感）→刮奖弹窗+翻倍升级动画（双峰体验）。报名动作贡献当日活跃，次日领奖贡献次留，一次行为链条同时服务两个北极星指标，而"等待"本身不是成本，是被设计过的驱动力。'
+          }
+        ]
       },
       {
-        title: '策略二：制造"开盲盒"期待感，用悬念维持参与',
-        description: '每次刮开都是一次"拆惊喜"。借鉴盲盒/抽卡心理，通过遮罩机制天然制造悬念。刮动过程中逐渐露出的视觉元素（金色光晕、券的边角）持续制造多巴胺刺激，让用户产生"再来一张"的冲动。阶梯式奖励设计让每次结果都有惊喜感。'
+        title: '策略二：前置差异化权益锚定，强化桌面渠道心智',
+        subtitle: '将桌面组件从"快捷入口"重新定义为"权益放大器"',
+        sections: [
+          {
+            heading: '权益感知前移：从"领奖时才知道"到"报名时就拥有"',
+            content: '桌面组件的核心差异化价值是"翻倍权益"（最高15倍），将权益感知前移至报名成功瞬间——用户从桌面报名后立刻看到"恭喜获得6倍加成"的倍数卡揭示。利用禀赋效应：一旦感知到"我已经拥有6倍加成"，不来领奖等于"失去已有的东西"，损失厌恶的驱动力是获得激励的2-2.5倍（Kahneman & Tversky前景理论）。'
+          },
+          {
+            heading: '人群反向倍数：越不活跃，给的越多',
+            content: '反转常规逻辑——越不活跃的用户给的翻倍越高。流失/回流用户15倍（以超高收益击穿脱敏阈值，这批是DAU增量核心来源）、新用户/低活老用户10倍、中活老用户5-8倍、高活老用户2倍（基础权益即可，避免过度补贴）。精妙之处在于成本结构：瓜分模式下总奖池固定，翻倍本质是池内份额再分配——桌面用户多拿，非桌面用户少拿，平台总支出不变。即使活动参与人数翻倍也不会失控，对于规划运营到2027年底的长期活动，成本可预测是生存基础。'
+          }
+        ]
       },
       {
-        title: '策略三：打造8090怀旧氛围，让领券变成情感体验',
-        description: '以80年代与90年代复古视觉为包装，将功能性的"领券"转化为情感化的"收集怀旧记忆"。通过像素风格动画、复古配色方案、经典游戏音效等元素，唤起目标用户群体的集体记忆，让互动过程本身成为值得分享的体验。'
+        title: '策略三：品牌化IP承接，支撑长期运营复利',
+        subtitle: '解决长线运营的审美疲劳和活动辨识度问题',
+        sections: [
+          {
+            heading: '品牌化设计决策',
+            content: '将"刮刮乐"转译为"呱呱乐"，配合青蛙IP形象形成独属于KK的活动品牌符号。命名策略："呱呱"与"刮刮"谐音，动作隐喻直觉化——青蛙"呱呱"叫，用户"刮刮"奖，零学习成本。IP调性：粉色青蛙+圆润设计语言，匹配下沉用户偏好的轻松可爱氛围，降低"激励活动=套路"的防御心理。长线延展性：IP支持节日换装、惊喜日特殊皮肤、连续参与成就体系等后续运营扩展，避免每次迭代从零建立认知。'
+          }
+        ]
       }
     ],
-    highlights: [
+    aigc: [
       {
-        title: 'AIGC 提效实践',
-        content: '在视觉产出环节引入AIGC工具辅助设计。利用AI生成80/90年代风格的视觉素材（怀旧插画、像素元素、复古纹理），将原本需要3-5天的视觉探索阶段压缩至1天内完成多方案输出。AI负责风格发散和基础素材生产，设计师专注于品质把控、交互细节和整体体验叙事的打磨。实现了"效率与质量兼得"的工作模式。'
+        title: '用户行为洞察与策略推导',
+        content: '利用AI大模型对保有用户活跃度标签进行聚类分析，辅助输出人群分层策略和反向倍数模型建议'
       },
       {
-        title: '设计亮点',
-        content: '交互动效方面：刮动时的粒子飘散效果、刮完后的奖品弹出动画、连续刮卡时的combo反馈，构建完整的正反馈循环。信息架构方面：首屏即玩法，减少一切前置说明页面；奖品领取后立即展示使用场景和倒计时，缩短从领取到核销的决策路径。'
+        title: '竞品交互模式研究',
+        content: '通过AI辅助批量采集和归纳拼多多天天领现金、抖音极速版宝箱、快手极速版等竞品的激励揭奖交互模式，竞品分析效率提升约70%'
+      },
+      {
+        title: '视觉素材探索',
+        content: '活动主视觉、青蛙IP形象探索阶段使用AIGC（Midjourney）生成概念方向，快速收敛设计风格，设计探索效率提升约60%'
       }
     ],
     results: [
       {
-        metric: '券领取率',
-        value: '提升 23%',
-        description: '对比常规领券弹窗形式'
+        metric: 'KK DAU增长',
+        value: '目标 +1.5%',
+        description: 'A/B实验验证，覆盖全量安卓用户'
       },
       {
-        metric: '用户参与时长',
-        value: '平均 45s',
-        description: '远超同类营销互动15s的行业均值'
+        metric: '用户两次访问',
+        value: '报名+次日领奖',
+        description: '一次行为链条服务DAU和次留双指标'
       },
       {
-        metric: '活动分享率',
-        value: '提升 18%',
-        description: '怀旧主题引发社交传播'
+        metric: '桌面组件渗透率',
+        value: '显著提升',
+        description: '差异化翻倍权益驱动组件报名'
       },
       {
-        metric: '设计效率',
-        value: 'AIGC提效 60%',
-        description: '视觉产出阶段耗时大幅缩减'
+        metric: '运营成本',
+        value: '总池固定可控',
+        description: '瓜分模式下翻倍为份额再分配'
       }
     ],
-    reflection: '呱呱乐项目验证了"游戏化思维+情感化设计"在营销场景的有效性。核心收获：一是简单玩法不等于简陋体验，极致打磨基础交互的细节反馈，比堆砌复杂功能更能打动用户；二是AIGC工具的价值不在于替代设计师，而在于将设计师从重复劳动中解放，让更多精力投入到体验策略和交互创新上；三是情感化包装能有效提升功能性行为的参与度——用户不是在"领券"，而是在"玩一个好玩的游戏"，顺便获得了优惠。'
+    reflection: [
+      {
+        title: '延迟满足型活动的游戏化设计方法论',
+        content: '当奖励需要等待时，核心不是"告诉用户等多久"，而是"让等待本身变成期待"。手法：前置权益锚定（种期待）→隔夜信息缺口（养悬念）→仪式感揭示+二次惊喜叠加（爆惊喜）。可复用至所有"非即时兑现"的激励活动设计。'
+      },
+      {
+        title: '"活跃度反向匹配倍数"的人群策略模型',
+        content: '对越不活跃的用户给予越高专属权益倍数，精准撬动目标人群，避免对高活用户过度补贴。在瓜分模式下翻倍为池内份额再分配、总成本不变。可抽象为通用的"人群×权益×成本"配置框架。'
+      },
+      {
+        title: '下沉用户的游戏化交互偏好洞察',
+        content: '下沉用户对"手指操作可见变化"的交互形式（刮、拆、翻、转）的参与度显著高于"点按确认"的静态形式。可复用至后续所有面向保有低活用户的激励活动设计，指导交互形式选择。'
+      }
+    ]
   }
 ];
 
@@ -226,12 +276,7 @@ function ProjectCard({ project, index }: { project: ProjectData; index: number }
       </div>
 
       {/* 分隔线 */}
-      <div style={{
-        width: '100%',
-        height: '1px',
-        background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent)',
-        margin: '32px 0'
-      }} />
+      <Divider />
 
       {/* 项目概述 */}
       <Section title="项目概述">
@@ -239,40 +284,51 @@ function ProjectCard({ project, index }: { project: ProjectData; index: number }
       </Section>
 
       {/* 项目背景 */}
-      <Section title="项目背景">
+      <Section title="需求背景">
         <p style={paragraphStyle}>{project.background}</p>
       </Section>
 
       {/* 设计策略 */}
-      <Section title="设计策略">
-        {project.strategies.map((strategy, i) => (
-          <div key={i} style={{ marginBottom: '24px' }}>
-            <h4 style={{
-              fontSize: '14px',
-              fontWeight: '400',
-              color: 'rgba(255, 255, 255, 0.8)',
-              marginBottom: '8px'
-            }}>
-              {strategy.title}
-            </h4>
-            <p style={paragraphStyle}>{strategy.description}</p>
-          </div>
-        ))}
-      </Section>
+      {project.strategies.map((strategy, i) => (
+        <Section key={i} title={strategy.title}>
+          <p style={{
+            ...paragraphStyle,
+            color: 'rgba(255, 255, 255, 0.45)',
+            fontStyle: 'italic',
+            marginBottom: '20px',
+            fontSize: '13px'
+          }}>
+            {strategy.subtitle}
+          </p>
+          {strategy.sections.map((section, j) => (
+            <div key={j} style={{ marginBottom: '24px' }}>
+              <h4 style={{
+                fontSize: '14px',
+                fontWeight: '400',
+                color: 'rgba(255, 255, 255, 0.75)',
+                marginBottom: '10px'
+              }}>
+                {section.heading}
+              </h4>
+              <p style={paragraphStyle}>{section.content}</p>
+            </div>
+          ))}
+        </Section>
+      ))}
 
-      {/* 亮点 */}
-      <Section title="设计亮点">
-        {project.highlights.map((highlight, i) => (
-          <div key={i} style={{ marginBottom: '24px' }}>
+      {/* AIGC提效 */}
+      <Section title="AIGC 提效">
+        {project.aigc.map((item, i) => (
+          <div key={i} style={{ marginBottom: '20px' }}>
             <h4 style={{
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: '400',
-              color: 'rgba(255, 255, 255, 0.8)',
-              marginBottom: '8px'
+              color: 'rgba(255, 255, 255, 0.7)',
+              marginBottom: '6px'
             }}>
-              {highlight.title}
+              {item.title}
             </h4>
-            <p style={paragraphStyle}>{highlight.content}</p>
+            <p style={paragraphStyle}>{item.content}</p>
           </div>
         ))}
       </Section>
@@ -292,7 +348,7 @@ function ProjectCard({ project, index }: { project: ProjectData; index: number }
               border: '1px solid rgba(255, 255, 255, 0.06)'
             }}>
               <div style={{
-                fontSize: '20px',
+                fontSize: '18px',
                 fontWeight: '300',
                 color: '#ffffff',
                 marginBottom: '4px'
@@ -319,7 +375,19 @@ function ProjectCard({ project, index }: { project: ProjectData; index: number }
 
       {/* 经验沉淀 */}
       <Section title="经验沉淀">
-        <p style={paragraphStyle}>{project.reflection}</p>
+        {project.reflection.map((item, i) => (
+          <div key={i} style={{ marginBottom: '24px' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: '400',
+              color: 'rgba(255, 255, 255, 0.75)',
+              marginBottom: '8px'
+            }}>
+              {item.title}
+            </h4>
+            <p style={paragraphStyle}>{item.content}</p>
+          </div>
+        ))}
       </Section>
     </article>
   );
@@ -333,10 +401,22 @@ const paragraphStyle: React.CSSProperties = {
   fontWeight: '300'
 };
 
+// 分隔线组件
+function Divider() {
+  return (
+    <div style={{
+      width: '100%',
+      height: '1px',
+      background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent)',
+      margin: '32px 0'
+    }} />
+  );
+}
+
 // 章节组件
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: '36px' }}>
+    <div style={{ marginBottom: '40px' }}>
       <h3 style={{
         fontSize: '12px',
         letterSpacing: '3px',
