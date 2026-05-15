@@ -1,26 +1,22 @@
 'use client';
 
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect, useRef, useCallback } from 'react';
 
 export interface SmokeTextConfig {
-  /** 字体大小，默认 '80px' */
+  /** 字体大小，默认 'clamp(36px, 6vw, 80px)' */
   fontSize?: string;
-  /** 字体粗细，默认 'bold' */
-  fontWeight?: string | number;
-  /** 文字颜色，默认继承父元素 */
+  /** 基础字重（波浪中心值），默认 500 */
+  baseWeight?: number;
+  /** 字重波动幅度，默认 400（即 100-900 之间波动） */
+  weightAmplitude?: number;
+  /** 波浪速度，默认 0.06 */
+  speed?: number;
+  /** 字母间相位差，默认 0.8 */
+  phaseGap?: number;
+  /** 文字颜色，默认 'rgba(255,255,255,0.85)' */
   color?: string;
-  /** 动画时长（秒），默认 4 */
-  duration?: number;
   /** 动画延迟（秒），默认 0 */
   delay?: number;
-  /** blur 峰值（px），默认 8 */
-  blurAmount?: number;
-  /** opacity 最低值，默认 0.3 */
-  minOpacity?: number;
-  /** 上浮距离（px），默认 20 */
-  translateY?: number;
-  /** 动画缓动，默认 'ease-in-out' */
-  easing?: string;
   /** 自定义 className */
   className?: string;
   /** 自定义 style */
@@ -32,56 +28,92 @@ interface SmokeTextProps {
   config?: SmokeTextConfig;
 }
 
-const defaultConfig: Required<Omit<SmokeTextConfig, 'className' | 'style'>> = {
-  fontSize: '80px',
-  fontWeight: 'bold',
-  color: 'inherit',
-  duration: 4,
+const defaultConfig = {
+  fontSize: 'clamp(36px, 6vw, 80px)',
+  baseWeight: 500,
+  weightAmplitude: 400,
+  speed: 0.06,
+  phaseGap: 0.8,
+  color: 'rgba(255,255,255,0.85)',
   delay: 0,
-  blurAmount: 8,
-  minOpacity: 0.3,
-  translateY: 20,
-  easing: 'ease-in-out',
 };
 
 export default function SmokeText({ children, config = {} }: SmokeTextProps) {
   const c = { ...defaultConfig, ...config };
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const rafRef = useRef<number>(0);
+  const phaseRef = useRef(0);
+  const lettersRef = useRef<HTMLSpanElement[]>([]);
+  const startedRef = useRef(false);
 
-  const animationName = `smokeText_${c.blurAmount}_${c.minOpacity}_${c.translateY}`.replace(/\./g, '_');
+  const startAnimation = useCallback(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
 
-  const keyframes = `
-    @keyframes ${animationName} {
-      0%, 100% {
-        filter: blur(0px);
-        opacity: 1;
-        transform: translateY(0);
+    const animate = () => {
+      phaseRef.current += c.speed;
+      const letters = lettersRef.current;
+      for (let i = 0; i < letters.length; i++) {
+        const val = Math.sin(phaseRef.current + i * c.phaseGap);
+        const weight = Math.round(c.baseWeight + val * c.weightAmplitude);
+        // clamp between 100 and 900
+        letters[i].style.fontWeight = String(Math.max(100, Math.min(900, weight)));
       }
-      50% {
-        filter: blur(${c.blurAmount}px);
-        opacity: ${c.minOpacity};
-        transform: translateY(-${c.translateY}px);
-      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+  }, [c.speed, c.phaseGap, c.baseWeight, c.weightAmplitude]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // 拆分文字为单个字母 span
+    const text = container.textContent || '';
+    container.textContent = '';
+    lettersRef.current = [];
+
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement('span');
+      span.style.display = 'inline-block';
+      span.style.whiteSpace = 'pre';
+      span.style.transition = 'font-weight 0.4s cubic-bezier(.22,1,.36,1)';
+      span.style.willChange = 'font-weight';
+      span.textContent = text[i];
+      container.appendChild(span);
+      lettersRef.current.push(span);
     }
-  `;
+
+    // 延迟启动
+    const timer = setTimeout(() => {
+      startAnimation();
+    }, c.delay * 1000);
+
+    return () => {
+      clearTimeout(timer);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      startedRef.current = false;
+    };
+  }, [children, c.delay, startAnimation]);
 
   const inlineStyle: CSSProperties = {
+    display: 'inline-flex',
     fontSize: c.fontSize,
-    fontWeight: c.fontWeight,
+    fontWeight: 800,
     color: c.color,
-    animation: `${animationName} ${c.duration}s ${c.easing} ${c.delay}s infinite`,
-    display: 'inline-block',
+    fontFamily: "'Inter', sans-serif",
     ...config.style,
   };
 
   return (
-    <>
-      <style>{keyframes}</style>
-      <span
-        className={config.className}
-        style={inlineStyle}
-      >
-        {children}
-      </span>
-    </>
+    <span
+      ref={containerRef}
+      className={config.className}
+      style={inlineStyle}
+    >
+      {children}
+    </span>
   );
 }

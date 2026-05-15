@@ -54,13 +54,12 @@ export default function Home() {
         <SmokeText
           config={{
             fontSize: 'clamp(36px, 6vw, 80px)',
-            fontWeight: 'bold',
             color: 'rgba(255,255,255,0.85)',
-            duration: 6,
             delay: 0.8,
-            blurAmount: 12,
-            minOpacity: 0.15,
-            translateY: 20,
+            speed: 0.06,
+            phaseGap: 0.8,
+            baseWeight: 500,
+            weightAmplitude: 400,
             style: { display: 'block' },
           }}
         >
@@ -69,13 +68,12 @@ export default function Home() {
         <SmokeText
           config={{
             fontSize: 'clamp(36px, 6vw, 80px)',
-            fontWeight: 'bold',
             color: 'rgba(255,255,255,0.85)',
-            duration: 6,
             delay: 1.2,
-            blurAmount: 12,
-            minOpacity: 0.15,
-            translateY: 20,
+            speed: 0.06,
+            phaseGap: 0.8,
+            baseWeight: 500,
+            weightAmplitude: 400,
             style: { display: 'block' },
           }}
         >

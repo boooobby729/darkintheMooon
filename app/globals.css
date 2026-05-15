@@ -1,3 +1,6 @@
+/* Inter 可变字体 - 支持字重波浪动效 */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 /* 汉仪瑞意宋字体 - 如果本地有字体文件，可以这样引入 */
 /* @font-face {
   font-family: '汉仪瑞意宋';
