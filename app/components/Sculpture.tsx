@@ -1,31 +1,39 @@
 'use client';
 
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { useGLTF } from '@react-three/drei';
 import { Suspense, useRef, useState, useEffect } from 'react';
+import { MeshoptDecoder } from 'meshoptimizer';
+
+// 使用 meshopt 压缩版本，解码速度远快于 Draco
+const MODEL_PATH = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/column_meshopt.glb`;
 
 interface ColumnModelProps {
   scrollProgress: number;
   isScrolling: boolean;
+  onLoaded?: () => void;
 }
 
-function ColumnModel({ scrollProgress, isScrolling }: ColumnModelProps) {
+function ColumnModel({ scrollProgress, isScrolling, onLoaded }: ColumnModelProps) {
   const group = useRef<any>(null);
-  // 加载放在 public/models 下的罗马柱模型
-  const modelPath = `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/column.glb`;
-  const { scene } = useGLTF(modelPath);
+  const { scene } = useGLTF(MODEL_PATH, undefined, undefined, (loader) => {
+    loader.setMeshoptDecoder(MeshoptDecoder);
+  });
+
+  useEffect(() => {
+    if (scene && onLoaded) {
+      onLoaded();
+    }
+  }, [scene, onLoaded]);
 
   useFrame((_state, delta) => {
-    // 根据滚动状态调整旋转速度
     if (group.current) {
       const baseSpeed = 0.2;
       let speedMultiplier = 1;
       
       if (isScrolling) {
-        // 滑动时，转速提高三倍
         speedMultiplier = 3;
       } else {
-        // 不动时，转速慢一倍（即基础速度的一半）
         speedMultiplier = 0.5;
       }
       
@@ -38,7 +46,7 @@ function ColumnModel({ scrollProgress, isScrolling }: ColumnModelProps) {
       ref={group}
       dispose={null}
       scale={[6, 6, 6]}
-      position={[0, -0.5, 0]} // 略微下移，避免顶部被裁切
+      position={[0, -0.5, 0]}
     >
       <primitive object={scene} />
     </group>
@@ -46,7 +54,17 @@ function ColumnModel({ scrollProgress, isScrolling }: ColumnModelProps) {
 }
 
 // 预加载模型
-useGLTF.preload(`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/models/column.glb`);
+useGLTF.preload(MODEL_PATH);
+
+// Loading 过渡动画
+function LoadingFallback() {
+  return (
+    <mesh>
+      <sphereGeometry args={[0.5, 16, 16]} />
+      <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.1} />
+    </mesh>
+  );
+}
 
 interface SculptureProps {
   containerRef?: React.RefObject<HTMLDivElement | null>;
@@ -55,6 +73,7 @@ interface SculptureProps {
 export default function Sculpture({ containerRef }: SculptureProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
   const scrollTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -68,24 +87,19 @@ export default function Sculpture({ containerRef }: SculptureProps) {
         const clientHeight = container.clientHeight;
         const maxScroll = scrollHeight - clientHeight;
         
-        // 计算滚动进度 (0 到 1)
         const progress = maxScroll > 0 ? Math.min(scrollTop / maxScroll, 1) : 0;
         setScrollProgress(progress);
         
-        // 检测是否真的在滚动（位置发生变化）
         const isActuallyScrolling = Math.abs(scrollTop - lastScrollTop) > 0.5;
         lastScrollTop = scrollTop;
         
         if (isActuallyScrolling) {
-          // 立即设置为滚动状态
           setIsScrolling(true);
           
-          // 清除之前的定时器
           if (scrollTimerRef.current) {
             clearTimeout(scrollTimerRef.current);
           }
           
-          // 100ms 后如果没有新的滚动事件，认为滚动停止
           scrollTimerRef.current = setTimeout(() => {
             setIsScrolling(false);
           }, 100);
@@ -96,7 +110,7 @@ export default function Sculpture({ containerRef }: SculptureProps) {
     const container = containerRef?.current;
     if (container) {
       container.addEventListener('scroll', handleScroll, { passive: true });
-      handleScroll(); // 初始化计算
+      handleScroll();
     }
 
     return () => {
@@ -121,36 +135,35 @@ export default function Sculpture({ containerRef }: SculptureProps) {
         pointerEvents: 'none',
         zIndex: 5,
         transform: 'translateX(600px) translateY(900px)',
+        opacity: modelLoaded ? 1 : 0,
+        transition: 'opacity 0.8s ease-in-out',
       }}
     >
       <Canvas
-        camera={{ position: [0, 3, 12], fov: 45 }} // 拉远相机并扩大视野，让模型完整显示
+        camera={{ position: [0, 3, 12], fov: 45 }}
         style={{ width: '100%', height: '100%', background: 'transparent' }}
         gl={{ alpha: true, antialias: true }}
       >
-        {/* 环境光 - 提供整体基础亮度 */}
         <ambientLight intensity={5.0} />
-        
-        {/* 主方向光 - 从上方右侧照射 */}
         <directionalLight
           position={[5, 10, 5]}
           intensity={20.0}
           castShadow
         />
-        
-        {/* 辅助方向光 - 从左侧补充光照 */}
         <directionalLight
           position={[-5, 5, -5]}
           intensity={10.0}
         />
-        
-        {/* 点光源 - 从前方补充光照 */}
         <pointLight
           position={[0, 3, 5]}
           intensity={10.5}
         />
-        <Suspense fallback={null}>
-          <ColumnModel scrollProgress={scrollProgress} isScrolling={isScrolling} />
+        <Suspense fallback={<LoadingFallback />}>
+          <ColumnModel
+            scrollProgress={scrollProgress}
+            isScrolling={isScrolling}
+            onLoaded={() => setModelLoaded(true)}
+          />
         </Suspense>
       </Canvas>
     </div>
