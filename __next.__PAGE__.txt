@@ -1,0 +1,9 @@
+1:"$Sreact.fragment"
+2:I[90533,["/darkintheMooon/_next/static/chunks/8a894bae44c061d3.js","/darkintheMooon/_next/static/chunks/8dae5c80d2b2a332.js"],"ClientPageRoot"]
+3:I[12923,["/darkintheMooon/_next/static/chunks/f8c201f13b5bd175.js","/darkintheMooon/_next/static/chunks/50f350189a9de894.js"],"default"]
+6:I[74940,["/darkintheMooon/_next/static/chunks/8a894bae44c061d3.js","/darkintheMooon/_next/static/chunks/8dae5c80d2b2a332.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"pRNwmXyjfpGEAxfW21C7P","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/darkintheMooon/_next/static/chunks/f8c201f13b5bd175.js","async":true}],["$","script","script-1",{"src":"/darkintheMooon/_next/static/chunks/50f350189a9de894.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null

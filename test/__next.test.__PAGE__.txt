@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[74940,["/darkintheMooon/_next/static/chunks/8a894bae44c061d3.js","/darkintheMooon/_next/static/chunks/8dae5c80d2b2a332.js"],"OutletBoundary"]
+3:"$Sreact.suspense"
+0:{"buildId":"pRNwmXyjfpGEAxfW21C7P","rsc":["$","$1","c",{"children":[["$","div",null,{"style":{"padding":40,"fontFamily":"system-ui"},"children":[["$","h1",null,{"children":"con 项目已运行"}],["$","p",null,{"children":"若能看到这行，说明当前 localhost 是本项目。"}],["$","a",null,{"href":"/","style":{"color":"#4a9eff"},"children":"去首页"}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"loading":null,"isPartial":false}
+4:null

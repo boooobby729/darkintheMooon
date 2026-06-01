@@ -1,0 +1,4 @@
+1:"$Sreact.fragment"
+2:I[21585,["/darkintheMooon/_next/static/chunks/8a894bae44c061d3.js","/darkintheMooon/_next/static/chunks/8dae5c80d2b2a332.js"],"default"]
+3:I[88377,["/darkintheMooon/_next/static/chunks/8a894bae44c061d3.js","/darkintheMooon/_next/static/chunks/8dae5c80d2b2a332.js"],"default"]
+0:{"buildId":"pRNwmXyjfpGEAxfW21C7P","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
